@@ -1,15 +1,19 @@
 
 import { GoogleGenAI, Modality } from "@google/genai";
+import { ChaosLevel } from "./types";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-export const getChaosCommentary = async (type: 'win' | 'lose' | 'pick', numbers: number[]) => {
+export const getChaosCommentary = async (type: 'win' | 'lose' | 'pick', numbers: number[], level: ChaosLevel) => {
   const prompt = type === 'win' 
     ? `O usuário ACERTOU todos os números da Mega Sena Maluca (${numbers.join(', ')}). 
+       Nível de Caos Atual: ${level}.
        Gere uma resposta curta e agressivamente engraçada em português dizendo que ele é MALUCO e que não era para acertar. 
-       Use gírias brasileiras caóticas.`
+       Se o nível for Apocalíptico, seja extremamente caótico e absurdo.`
     : `O usuário escolheu os números ${numbers.join(', ')} mas errou o jogo. 
-       Gere um deboche curto e engraçado em português, tirando sarro da "estratégia" dele.`;
+       Nível de Caos Atual: ${level}.
+       Gere um deboche curto e engraçado em português. 
+       Tranquilo: sarcasmo leve. Malucão: deboche pesado. Apocalíptico: humilhação total e nonsense.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -47,7 +51,43 @@ export const generateWinnerImage = async () => {
     return null;
   } catch (e) {
     console.error("Image generation failed", e);
-    return "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1000&auto=format&fit=crop"; // fallback
+    return null;
+  }
+};
+
+export const editWinnerImage = async (base64Image: string, prompt: string) => {
+  try {
+    // Extract base64 part
+    const data = base64Image.split(',')[1] || base64Image;
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-image',
+      contents: {
+        parts: [
+          {
+            inlineData: {
+              data: data,
+              mimeType: 'image/png'
+            }
+          },
+          { text: prompt }
+        ]
+      },
+      config: {
+        imageConfig: {
+          aspectRatio: "1:1"
+        }
+      }
+    });
+
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData) {
+        return `data:image/png;base64,${part.inlineData.data}`;
+      }
+    }
+    return null;
+  } catch (e) {
+    console.error("Image editing failed", e);
+    return null;
   }
 };
 
