@@ -5,20 +5,18 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
+    // Garante que o SDK do Gemini consiga ler a chave de API
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
-  },
-  server: {
-    port: 3000,
-    host: true
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
-    minify: 'terser',
+    minify: 'esbuild',
+    reportCompressedSize: false,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', '@google/genai']
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-ai': ['@google/genai']
         }
       }
     }

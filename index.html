@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Sena Maluca</title>
+    <title>Mega Sena Maluca - O Jogo do Fracasso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;700&display=swap');
@@ -13,40 +13,41 @@
             background-color: #0f172a;
             color: #f8fafc;
             margin: 0;
+            overflow-x: hidden;
         }
         .font-bungee {
             font-family: 'Bungee', cursive;
         }
         .glass {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
         .animate-float {
-            animation: float 4s ease-in-out infinite;
+            animation: float 5s ease-in-out infinite;
         }
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         .animate-spin-slow {
-            animation: spin-slow 12s linear infinite;
+            animation: spin-slow 15s linear infinite;
         }
-        /* Custom scrollbar for crazy looks */
+        /* Estilo da barra de rolagem caótica */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #020617;
         }
         ::-webkit-scrollbar-thumb {
-            background: #4ade80;
-            border-radius: 10px;
+            background: linear-gradient(to bottom, #4ade80, #fbbf24);
+            border-radius: 5px;
         }
     </style>
 <script type="importmap">
@@ -64,6 +65,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <!-- O Vite gerencia os módulos automaticamente através do package.json -->
     <script type="module" src="/index.tsx"></script>
 </body>
 </html>
