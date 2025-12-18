@@ -12,6 +12,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #0f172a;
             color: #f8fafc;
+            margin: 0;
         }
         .font-bungee {
             font-family: 'Bungee', cursive;
@@ -36,6 +37,17 @@
         .animate-spin-slow {
             animation: spin-slow 12s linear infinite;
         }
+        /* Custom scrollbar for crazy looks */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4ade80;
+            border-radius: 10px;
+        }
     </style>
 <script type="importmap">
 {
@@ -52,7 +64,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- No Vercel/Vite, precisamos importar o script explicitamente -->
     <script type="module" src="/index.tsx"></script>
 </body>
 </html>

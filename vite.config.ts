@@ -5,14 +5,22 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Proporciona suporte para process.env exigido pelo SDK do Gemini
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
   },
   server: {
-    port: 3000
+    port: 3000,
+    host: true
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: false,
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', '@google/genai']
+        }
+      }
+    }
   }
 });
